@@ -7,6 +7,7 @@
 #include "../include/Knight.h"
 #include "../include/Bishop.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 Board :: Board() : Squares(8, vector<Square>(8)){
@@ -25,6 +26,15 @@ Board :: Board() : Squares(8, vector<Square>(8)){
     blackScore = 0;
     whiteScore = 0;
 }
+
+// Board :: ~Board(){
+//   for(int i = 0; i < Squares.size(); i++){
+//     for(int j =0; j < Squares[i].size(); j++){
+//       delete &Squares[i][j];
+//     }
+//   }
+//   Squares.clear();
+// }
 
 void Board :: setBoard(){
     Piece *blackPawn1 = new Pawn(false, "black-pawn", 6, 0);
@@ -135,8 +145,8 @@ bool Board :: lookForBishop(string type, int i, int j){
   // Check the lower right 
   // diagonal
   int k = 0;
-  while (inBounds(i + (++k), j + k)) 
-  {
+  while (inBounds(i + (k + 1), j + (k + 1))) {
+    k++;
     if (Squares[i + k][j + k].getPieceType() == type)
       return true;
     if (!Squares[i + k][j + k].isEmpty())
@@ -145,8 +155,8 @@ bool Board :: lookForBishop(string type, int i, int j){
  
   // Check the lower left diagonal
   k = 0;
-  while (inBounds(i + (++k), j - k)) 
-  {
+  while (inBounds(i + (k + 1), j - (k + 1))) {
+    k++;
     if (!Squares[i + k][j - k].isEmpty())
       break;
     if (Squares[i + k][j - k].getPieceType() == type)
@@ -156,19 +166,19 @@ bool Board :: lookForBishop(string type, int i, int j){
   // Check the upper right 
   // diagonal
   k = 0;
-  while (inBounds(i - (++k), j + k)) 
-  {
-    if (Squares[i - k][j + k].getPieceType() == type)
-      return true;
+  while (inBounds(i - (k+1) , j + k + 1)) {
+    k++;
     if (!Squares[i - k][j + k].isEmpty())
       break;
+    if (Squares[i - k][j + k].getPieceType() == type)
+      return true;
   }
  
   // Check the upper left 
   // diagonal
   k = 0;
-  while (inBounds(i - (++k), j - k))
-  {
+  while (inBounds(i - (k + 1), j - k + 1)){
+    k++;
     if (Squares[i - k][j - k].getPieceType() == type)
       return true;
     if (!Squares[i - k][j - k].isEmpty())

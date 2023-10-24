@@ -11,6 +11,8 @@ class Board{
 
         Board();
 
+        // ~Board();
+
         void setBoard();
 
         bool inBounds(int i, int j);
